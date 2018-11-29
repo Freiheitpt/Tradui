@@ -1,0 +1,31 @@
+PART A
+
+=================================================================
+
+set @num := 0, @grp := '';
+
+SELECT customerNumber, country, orderVolume FROM (
+    SELECT cov.customerNumber, cov.country, cov.orderVolume,
+	@num := if(@grp = cov.country, @num + 1, 1) as row_number,
+	@grp := cov.country as dummy
+    FROM customer_order_volume cov
+    ORDER BY cov.country ASC, cov.orderVolume DESC
+) AS result
+WHERE result.row_number <= 5
+
+
+===================================================================
+
+
+set @num := 0, @grp := '';
+
+SELECT result.customerNumber, result.country, result.orderVolume, (result.orderVolume/obc.total_orders) AS ratio_in_country FROM (
+    SELECT cov.customerNumber, cov.country, cov.orderVolume,
+	@num := if(@grp = cov.country, @num + 1, 1) as row_number,
+	@grp := cov.country as dummy
+    FROM customer_order_volume cov
+    ORDER BY cov.country ASC, cov.orderVolume DESC
+) AS result
+JOIN orders_by_country obc ON obc.country = result.country
+WHERE result.row_number <= 5
+
