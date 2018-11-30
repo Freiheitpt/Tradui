@@ -43,23 +43,23 @@ public class ClassicModelsApp {
 		
 		
 		
-		//Print out results
-		System.out.println("Customers count: " + customers.size());
-		for (String tmp : customers.keySet()) {
-			System.out.println(customers.get(tmp).toString());
-		}
-		
-		System.out.println("==========================================");
+//		//Print out results
+//		System.out.println("Customers count: " + customers.size());
+//		for (String tmp : customers.keySet()) {
+//			System.out.println(customers.get(tmp).toString());
+//		}
+//		
+		System.out.println("==============================================================================================================================");
 		System.out.println("Countries count: " + countries.size());
 		for (String tmp : countries.keySet()) {
-			System.out.println(tmp + " has a total volume order of: " + countries.get(tmp));
+			System.out.printf("%15s has a total volume order of %5d\n", tmp, countries.get(tmp));
 		}
 		
 		
 		
 		//Print Volume orders of top N customers.
-		System.out.println("==========================================");
-		HashMap<String,CustomerOrdersCounter> tmp = CustomerOrdersCounter.getTopCustomersByCountryAndVolumeOrder(5);
+		System.out.println("==============================================================================================================================");
+		HashMap<String,CustomerOrdersCounter> tmp = CustomerOrdersCounter.getTopCustomersByCountryAndVolumeOrder(1);
 		System.out.println("Results count: " + tmp.size());
 		for (String val : tmp.keySet()) {
 			System.out.println(tmp.get(val));
@@ -67,13 +67,12 @@ public class ClassicModelsApp {
 		
 		
 		//Print Volume Ratio by country of top N customers.
-		System.out.println("==========================================");
+		System.out.println("==============================================================================================================================");
 		System.out.println("Ratio: ");
 		for (String val : tmp.keySet()) {
-			System.out.println(tmp.get(val) + " and a country ratio of: " + (float)tmp.get(val).getOrdersCounter()/countries.get(tmp.get(val).getCustomerCountry()));
+			//System.out.println(((float)tmp.get(val).getOrdersCounter()) + "     " + ((float)countries.get(tmp.get(val).getCustomerCountry())));
+			System.out.printf(tmp.get(val) + " and a country ratio of %2s%6.2f %%\n", "", ((float)tmp.get(val).getOrdersCounter())/((float)countries.get(tmp.get(val).getCustomerCountry()))*100);
 		}
-		
-		
 		
 		csvParser.close();
 	}

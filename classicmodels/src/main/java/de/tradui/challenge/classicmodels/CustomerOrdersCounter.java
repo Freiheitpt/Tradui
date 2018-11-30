@@ -12,7 +12,6 @@ public class CustomerOrdersCounter implements Comparable<CustomerOrdersCounter> 
 	private static HashMap<String, CustomerOrdersCounter> customerOrdersCount = new HashMap<String, CustomerOrdersCounter>();
 	private static HashMap<String, Integer> countryOrdersCount = new HashMap<String, Integer>();
 	
-	
 	/*
 	 * Constructor
 	 */
@@ -71,6 +70,7 @@ public class CustomerOrdersCounter implements Comparable<CustomerOrdersCounter> 
 			customerOrdersCount.get(id).incOrders(1);
 		} else {
 			customerOrdersCount.put(this.id, this);
+			this.incOrders(1);
 		}
 	}
 	
@@ -134,18 +134,6 @@ public class CustomerOrdersCounter implements Comparable<CustomerOrdersCounter> 
 						helper.remove(min.getCustomerID());
 						helper.put(customerOrdersCount.get(tmp).getCustomerID(), customerOrdersCount.get(tmp));
 					}
-					
-//					Iterator<Entry<String, CustomerOrdersCounter>> it = helper.entrySet().iterator();
-//					boolean deleted = false;
-//					Map.Entry<String, CustomerOrdersCounter> pair = null;
-//					while (it.hasNext()) {
-//						pair = it.next();
-//						if(pair.getValue().getOrdersCounter() < customerOrdersCount.get(tmp).getOrdersCounter()) {
-//							it.remove();
-//							deleted = true;
-//						}
-//					}
-//					if(deleted) helper.put(customerOrdersCount.get(tmp).getCustomerID(), customerOrdersCount.get(tmp));
 				}
 			} else {
 				//if country does not exist in the list, then no customer, of that country, exists in the list either.
@@ -170,7 +158,7 @@ public class CustomerOrdersCounter implements Comparable<CustomerOrdersCounter> 
 	
 	@Override
 	public String toString() {
-		return "Customer " + this.id + " from " + this.customerCountry + " has a volume order of: " + this.customerOrders;
+		return String.format("Customer %5s%3sfrom %-15s has a volume order of %5d", this.id, "", this.customerCountry, this.customerOrders);
 	}
 
 	@Override
